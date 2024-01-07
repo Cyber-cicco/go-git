@@ -1,9 +1,17 @@
 package entites
 
-type GitObject struct {
+type GitObject interface {
+    Serialize(repo *GitRepository) 
+    Deserialize(repo *GitRepository) 
 }
 
-func (g *GitObject) Serialize(repo *GitRepository) {
+type GitBlob struct {
+    Length int
+    Content string
 }
 
-func (g *GitObject) Deserialize(repo *GitRepository)
+func (g *GitBlob) Serialize() {
+}
+
+func (g *GitBlob) Deserialize() {
+}

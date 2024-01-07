@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fr/eduprolo/src/services"
+
 	"github.com/spf13/cobra"
 )
 
@@ -14,6 +16,7 @@ var addCmd = &cobra.Command{
   `,
 
 	Run: func(cmd *cobra.Command, args []string) {
+        services.AddFile(fileName)
     },
 }
 
