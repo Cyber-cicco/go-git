@@ -1,17 +1,17 @@
 package ioutils
 
 import (
-	"bytes"
-	"compress/zlib"
-	"errors"
-	"fmt"
 	"fr/eduprolo/src/consts"
-	"fr/eduprolo/src/entites"
 	"fr/eduprolo/src/utils"
-	"io"
 	"os"
-	"strconv"
 )
+
+func ReadFile(path string) []byte {
+    file, err := os.ReadFile(path)
+    utils.HandleBasicError(err, consts.ERR_CANT_READ_FILE)
+    return file
+}
+
 
 func FindRootRepository(path string) string {
 
@@ -52,30 +52,4 @@ func walkToParentDirectory(path string) string {
         i += 1
     }
     return path[:indexOfLastSlash]
-}
-
-func ReadObject(repo entites.GitRepository, sha string) {
-    f := repo.GetObjectFileFromHash(sha);
-
-    reader, err := zlib.NewReader(&f)
-    utils.HandleBasicError(err, consts.ERR_CANT_DECOMPRESS)
-
-    var raw bytes.Buffer
-    io.Copy(&raw, reader)
-
-    contentAsBytes := raw.Bytes()
-    iFormatSeparator := utils.IndexOf(raw.Bytes(), ' ')
-    iLenSeparator := utils.IndexOf(raw.Bytes(), '\x00')
-    format := string(contentAsBytes[:iFormatSeparator])
-    length, err := strconv.ParseInt(string(contentAsBytes[iFormatSeparator+1:iLenSeparator]), 10, 0)
-    utils.HandleBasicError(err, consts.ERR_GIT_FILE_MALFORMED)
-    content := string(contentAsBytes[iLenSeparator+1:])
-
-    if len(content) != int(length) {
-        utils.HandleBasicError(errors.New("Erreur dans la longueur du fichier"), consts.ERR_GIT_FILE_MALFORMED)
-    }
-
-    fmt.Println(format)
-    fmt.Println(length)
-    fmt.Println(content)
 }

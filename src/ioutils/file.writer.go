@@ -45,3 +45,19 @@ func FileExists(dirPath string) bool {
 	}
 	return true
 }
+
+/* WriteSimpleFile 
+*  writes the provided 'content' to a file with the specified 'filename' in the specified 'directory'.
+*
+*  If the specified 'directory' does not exist, it attempts to create it with read, write, and execute permissions for all users.
+*  It then calls the 'writeFile' function to perform the file writing operation.
+*
+*  @param directory (string): The directory where the file will be created.
+*  @param filename (string): The name of the file to be created.
+*  @param content ([]byte): The content to be written to the file.
+*/func WriteSimpleFile(directory, filename string, content []byte) {
+	if !FileExists(directory) {
+		utils.HandleBasicError(os.MkdirAll(directory, 0777), consts.ERR_CANT_CREATE_DIR)
+	}
+	createNewFile(content, directory+filename)
+}
