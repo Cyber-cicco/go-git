@@ -27,4 +27,5 @@ func init() {
     rootCmd.AddCommand(initCmd)
     rootCmd.AddCommand(testCmd)
     rootCmd.AddCommand(catCmd)
+    rootCmd.AddCommand(hashCmd)
 }

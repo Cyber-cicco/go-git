@@ -7,7 +7,6 @@ import (
 )
 
 var file = ""
-var fileType = "blob"
 
 var catCmd = &cobra.Command{
 	Use:   "cat",
@@ -22,7 +21,6 @@ var catCmd = &cobra.Command{
 }
 
 func init() {
-    catCmd.Flags().StringVarP(&fileType, "type", "t", "blob", "Type du fichier que l'on souhaite désérialiser")
     catCmd.Flags().StringVarP(&file, "file", "f", "", "Nom du fichier que l'on souhaite désérialiser")
     catCmd.MarkFlagRequired("file")
 }
